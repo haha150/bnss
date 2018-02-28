@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.thymeleaf.context.Context;
 
@@ -22,8 +23,18 @@ public class Web2Controller {
 
 	@GetMapping("/login")
 	public String login() {
-		System.out.println("ium here");
 		return "login";
 	}
+	
+	@GetMapping("/2fa")
+	public String f2a() {
+		return "2fa";
+	}
+	
+	@PostMapping("/2fa")
+    public String f2aSubmit() {
+		System.out.println("hellow world again");
+        return "2fa";
+    }
 
 }
