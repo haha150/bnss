@@ -6,7 +6,9 @@ import java.util.List;
 import org.bnss.domain.User;
 import org.bnss.service.UserService;
 import org.jboss.aerogear.security.otp.Totp;
+import org.jboss.aerogear.security.otp.api.Base32;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -16,6 +18,8 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -24,24 +28,18 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 	@Autowired
 	UserService userService;
 
+	@Autowired
+	PasswordEncoder encoder;
+	
 	@Override
 	public Authentication authenticate(Authentication authentication) throws AuthenticationException {
 		String verificationCode = ((CustomWebAuthenticationDetails) authentication.getDetails()).getVerificationCode();
-
-		/*if (authentication.getName().equals("admin") && authentication.getCredentials().equals("admin")) {
-			List<GrantedAuthority> grantedAuths = new ArrayList<>();
-			grantedAuths.add(new SimpleGrantedAuthority("ROLE_USER"));
-			return new UsernamePasswordAuthenticationToken(authentication.getName(), authentication.getCredentials(),
-					grantedAuths);
-		} else {
-			return null;
-		}*/
 
 		List<User> users = userService.getAllUsers();
 		User user = null;
 		for (User u : users) {
 			if (u.getUsername().equals(authentication.getName())
-					&& u.getPassword().equals(authentication.getCredentials())) {
+					&& encoder.matches(authentication.getCredentials().toString(), u.getPassword())) {
 				user = u;
 				break;
 			}
@@ -73,4 +71,37 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 	public boolean supports(Class<?> authentication) {
 		return authentication.equals(UsernamePasswordAuthenticationToken.class);
 	}
+	
+	@Bean
+	public PasswordEncoder passwordEncoder() {
+	    return new BCryptPasswordEncoder();
+	}
+	
+	/*public void create() {
+		User u = new User();
+		u.setPassword(encoder.encode("david"));
+		u.setUsername("ChunHeng Jen");
+		u.setSecret(Base32.random());
+		
+		User u2 = new User();
+		u2.setPassword(encoder.encode("ali"));
+		u2.setUsername("Ali Symeri");
+		u2.setSecret(Base32.random());
+		
+		User u3 = new User();
+		u3.setPassword(encoder.encode("farhad"));
+		u3.setUsername("Farhad Zareafifi");
+		u3.setSecret(Base32.random());
+		
+		User u4 = new User();
+		u4.setPassword(encoder.encode("samie"));
+		u4.setUsername("Samie Mostafavi");
+		u4.setSecret(Base32.random());
+		
+		userService.addUser(u);
+		userService.addUser(u2);
+		userService.addUser(u3);
+		userService.addUser(u4);
+
+	}*/
 }

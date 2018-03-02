@@ -4,6 +4,7 @@ import java.security.Principal;
 import java.util.List;
 
 import org.bnss.domain.User;
+import org.bnss.security.CustomAuthenticationProvider;
 import org.bnss.service.UserService;
 import org.jboss.aerogear.security.otp.api.Base32;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,8 +27,17 @@ public class WebController {
 	@Autowired
 	UserService userService;
 	
+	@Autowired
+	CustomAuthenticationProvider auth;
+	
 	@RequestMapping(value = "/users", method = RequestMethod.GET)
 	public ResponseEntity<List<User>> getUsers() {
 		return new ResponseEntity<>(userService.getAllUsers(), HttpStatus.OK);
 	}
+	
+	/*@RequestMapping(value = "/create", method = RequestMethod.GET)
+	public ResponseEntity<List<User>> getUsers2() {
+		auth.create();
+		return new ResponseEntity<>(userService.getAllUsers(), HttpStatus.OK);
+	}*/
 }

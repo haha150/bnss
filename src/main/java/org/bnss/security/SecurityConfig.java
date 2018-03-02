@@ -18,6 +18,8 @@ import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
@@ -32,9 +34,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private CustomWebAuthenticationDetailsSource authenticationDetailsSource;
 	
 	 @Override
-	    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-	        super.configure(auth);
-	    }
+     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        super.configure(auth);
+     }
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
@@ -54,13 +56,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Bean
     public UserDetailsService userDetailsService() {
         return (username -> {
-        	List<org.bnss.domain.User> users = userService.getAllUsers();
-    		for (org.bnss.domain.User u : users) {
-    			if (u.getUsername().equals(username)) {
-    				return new User(username, "", AuthorityUtils.commaSeparatedStringToAuthorityList("ROLE_USER"));
-    			}
-    		}
-    		throw new BadCredentialsException("Invalid common name");
+	        	List<org.bnss.domain.User> users = userService.getAllUsers();
+	    		for (org.bnss.domain.User u : users) {
+	    			if (u.getUsername().equals(username)) {
+	    				return new User(username, "", AuthorityUtils.commaSeparatedStringToAuthorityList("ROLE_USER"));
+	    			}
+	    		}
+	    		throw new BadCredentialsException("Invalid common name");
         });
     }
 	
@@ -68,5 +70,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth.authenticationProvider(this.customAuthenticationProvider);
     }
+	
 	
 }
