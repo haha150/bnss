@@ -26,11 +26,11 @@ public class Data {
 	@Column(name = "file", columnDefinition = "LONGBLOB", nullable = false)
 	private byte[] file;
 	
-	@Column(name = "symmetrickey", length = 100, nullable = false)
-	private String key;
+	@Column(name = "symmetrickey", columnDefinition = "TINYBLOB", nullable = false)
+	private byte[] key;
 	
-	@Column(name = "hash", length = 100, nullable = false)
-	private String hash;
+	@Column(name = "hash", columnDefinition = "TINYBLOB", nullable = false)
+	private byte[] hash;
 
 	public Data() {
 	}
@@ -67,19 +67,19 @@ public class Data {
 		this.file = file;
 	}
 
-	public String getKey() {
+	public byte[] getKey() {
 		return key;
 	}
 
-	public void setKey(String key) {
+	public void setKey(byte[] key) {
 		this.key = key;
 	}
 
-	public String getHash() {
+	public byte[] getHash() {
 		return hash;
 	}
 
-	public void setHash(String hash) {
+	public void setHash(byte[] hash) {
 		this.hash = hash;
 	}
 	

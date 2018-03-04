@@ -4,9 +4,9 @@ import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.bnss.Model.DataDTO;
 import org.bnss.domain.Data;
 import org.bnss.domain.User;
+import org.bnss.model.DataDTO;
 import org.bnss.security.CustomAuthenticationProvider;
 import org.bnss.service.DataService;
 import org.bnss.service.UserService;
