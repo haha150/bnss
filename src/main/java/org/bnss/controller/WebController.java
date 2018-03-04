@@ -64,7 +64,18 @@ public class WebController {
 	
 	@RequestMapping(value = "/file/add", method = RequestMethod.PUT, consumes = { "application/json" })
 	public ResponseEntity<String> addFile(@RequestBody DataDTO fileToAdd) {
-		return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+		Data d = new Data();
+		d.setFrom(fileToAdd.getFrom());
+		d.setRecipient(fileToAdd.getRecipient());
+		d.setFile(fileToAdd.getFile());
+		d.setHash(fileToAdd.getHash());
+		d.setKey(fileToAdd.getKey());
+		d.setName(fileToAdd.getName());
+		d = dataService.addFile(d);
+		if(d != null && d.getId() != null) {
+			return new ResponseEntity<>("OK", HttpStatus.OK);
+		}
+		return new ResponseEntity<>("NOT OK", HttpStatus.BAD_REQUEST);
 	}
 	
 	

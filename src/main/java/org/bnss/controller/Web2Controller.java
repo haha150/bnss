@@ -25,16 +25,5 @@ public class Web2Controller {
 	public String login() {
 		return "login";
 	}
-	
-	@GetMapping("/2fa")
-	public String f2a() {
-		return "2fa";
-	}
-	
-	@PostMapping("/2fa")
-    public String f2aSubmit() {
-		System.out.println("hellow world again");
-        return "2fa";
-    }
 
 }

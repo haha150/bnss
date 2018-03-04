@@ -1,7 +1,5 @@
 package org.bnss.domain;
 
-import java.io.File;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -19,6 +17,9 @@ public class Data {
 	
 	@Column(name = "name", length = 100, nullable = false)
 	private String name;
+	
+	@Column(name = "sender", length = 100, nullable = false)
+	private String from;
 	
 	@Column(name = "recipient", length = 100, nullable = false)
 	private String recipient;
@@ -81,6 +82,14 @@ public class Data {
 
 	public void setHash(byte[] hash) {
 		this.hash = hash;
+	}
+
+	public String getFrom() {
+		return from;
+	}
+
+	public void setFrom(String from) {
+		this.from = from;
 	}
 	
 

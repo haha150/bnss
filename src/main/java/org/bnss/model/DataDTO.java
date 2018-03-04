@@ -7,21 +7,23 @@ public class DataDTO {
 
 	private Long id;
 	private String name;
+	private String from;
 	private String recipient;
 	private byte[] file;
-	private String key;
-	private String hash;
+	private byte[] key;
+	private byte[] hash;
 
 	@JsonCreator
-	public DataDTO(@JsonProperty("id") Long id, @JsonProperty("name") String name,
+	public DataDTO(@JsonProperty("id") Long id, @JsonProperty("name") String name, @JsonProperty("from") String from,
 			@JsonProperty("recipient") String recipient, @JsonProperty("file") byte[] file,
-			@JsonProperty("key") String key, @JsonProperty("hash") String hash) {
+			@JsonProperty("key") byte[] key, @JsonProperty("hash") byte[] hash) {
 		this.id = id;
 		this.name = name;
 		this.recipient = recipient;
 		this.file = file;
 		this.key = key;
 		this.hash = hash;
+		this.from = from;
 	}
 
 	public DataDTO() {
@@ -60,22 +62,28 @@ public class DataDTO {
 		this.file = file;
 	}
 
-	public String getKey() {
+	public byte[] getKey() {
 		return key;
 	}
 
-	public void setKey(String key) {
+	public void setKey(byte[] key) {
 		this.key = key;
 	}
 
-	public String getHash() {
+	public byte[] getHash() {
 		return hash;
 	}
 
-	public void setHash(String hash) {
+	public void setHash(byte[] hash) {
 		this.hash = hash;
 	}
-	
-	
+
+	public String getFrom() {
+		return from;
+	}
+
+	public void setFrom(String from) {
+		this.from = from;
+	}
 
 }
