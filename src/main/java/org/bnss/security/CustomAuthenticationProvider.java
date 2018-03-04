@@ -77,7 +77,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 	    return new BCryptPasswordEncoder();
 	}
 	
-	/*public void create() {
+	public void create() {
 		User u = new User();
 		u.setPassword(encoder.encode("david"));
 		u.setUsername("ChunHeng Jen");
@@ -103,5 +103,5 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 		userService.addUser(u3);
 		userService.addUser(u4);
 
-	}*/
+	}
 }
