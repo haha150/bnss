@@ -21,8 +21,8 @@ public class User {
 	@Column(name = "secret", length = 100)
 	private String secret;
 	
-	@Column(name = "cert", columnDefinition = "TINYBLOB")
-	private byte[] cert;
+	@Column(name = "cert", length = 100)
+	private String cert;
 
 	public User(Long id, String username, String password, String secret) {
 		this.id = id;
@@ -65,13 +65,15 @@ public class User {
 	public void setSecret(String secret) {
 		this.secret = secret;
 	}
-	
-	public byte[] getCert() {
+
+	public String getCert() {
 		return cert;
 	}
 
-	public void setCert(byte[] cert) {
+	public void setCert(String cert) {
 		this.cert = cert;
 	}
+	
+	
 
 }

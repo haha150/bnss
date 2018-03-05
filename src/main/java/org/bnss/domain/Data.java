@@ -27,10 +27,10 @@ public class Data {
 	@Column(name = "file", columnDefinition = "LONGBLOB", nullable = false)
 	private byte[] file;
 	
-	@Column(name = "symmetrickey", columnDefinition = "TINYBLOB", nullable = false)
+	@Column(name = "symmetrickey", columnDefinition = "LONGBLOB", nullable = false)
 	private byte[] key;
 	
-	@Column(name = "hash", columnDefinition = "TINYBLOB", nullable = false)
+	@Column(name = "hash", columnDefinition = "LONGBLOB", nullable = false)
 	private byte[] hash;
 
 	public Data() {

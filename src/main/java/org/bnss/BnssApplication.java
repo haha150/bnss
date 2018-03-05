@@ -1,6 +1,11 @@
 package org.bnss;
 
+import java.io.IOException;
+
+import javax.annotation.PostConstruct;
+
 import org.apache.catalina.connector.*;
+import org.bnss.controller.WebController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -48,5 +53,13 @@ public class BnssApplication extends SpringBootServletInitializer {
 			}
 		};
 	}
+	
+	@Autowired
+	WebController con;
+	
+	@PostConstruct
+    public void init() throws IOException{
+        //con.populateDb2();
+    }
 
 }
