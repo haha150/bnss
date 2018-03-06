@@ -35,5 +35,10 @@ public class DataServiceImpl implements DataService {
 		return dataRepo.save(data);
 	}
 
+	@Override
+	public void deleteFile(Data file) {
+		dataRepo.delete(file);
+	}
+
 
 }

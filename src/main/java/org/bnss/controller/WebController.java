@@ -107,12 +107,22 @@ public class WebController {
 		return new ResponseEntity<>("NOT OK", HttpStatus.BAD_REQUEST);
 	}
 
+	@RequestMapping(value = "/file/delete/{id}", method = RequestMethod.POST)
+	public ResponseEntity<String> deleteFile(@PathVariable("id") Long id) {
+		Data file = dataService.findFileById(id);
+		if (file != null) {
+			dataService.deleteFile(file);
+			return new ResponseEntity<>("OK", HttpStatus.OK);
+		}
+		return new ResponseEntity<>("NOT OK", HttpStatus.BAD_REQUEST);
+	}
+
 	@RequestMapping(value = "/certificate/{name}", method = RequestMethod.GET)
-	public void getFile(@PathVariable("name") String name, HttpServletResponse response) {
+	public void getCertificate(@PathVariable("name") String name, HttpServletResponse response) {
 		List<User> users = userService.getAllUsers();
 		for (User u : users) {
 			try {
-				if(u.getUsername().equals(name)) {
+				if (u.getUsername().equals(name)) {
 					File f = new File(u.getCert());
 					InputStream is = new FileInputStream(f);
 					IOUtils.copy(is, response.getOutputStream());
@@ -123,7 +133,6 @@ public class WebController {
 				throw new RuntimeException("IOError writing file to output stream");
 			}
 		}
-
 	}
 
 }
