@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.bnss.domain.Data;
+import org.bnss.domain.RadCheck;
 import org.bnss.domain.User;
 import org.bnss.model.DataDTO;
 import org.bnss.security.CustomAuthenticationProvider;
@@ -49,8 +50,13 @@ public class WebController {
 	CustomAuthenticationProvider auth;
 
 	@RequestMapping(value = "/users", method = RequestMethod.GET)
-	public ResponseEntity<List<User>> getUsers() {
-		return new ResponseEntity<>(userService.getAllUsers(), HttpStatus.OK);
+	public ResponseEntity<List<RadCheck>> getUsers() {
+		List<User> users = userService.getAllUsers();
+		List<RadCheck> usrs = new ArrayList<>();
+		for(User u : users) {
+			usrs.add(userService.findRadById(u.getRad()));
+		}
+		return new ResponseEntity<>(usrs, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
@@ -122,7 +128,8 @@ public class WebController {
 		List<User> users = userService.getAllUsers();
 		for (User u : users) {
 			try {
-				if (u.getUsername().equals(name)) {
+				RadCheck rad = userService.findRadById(u.getRad());
+				if (rad != null && rad.getUsername().equals(name)) {
 					File f = new File(u.getCert());
 					InputStream is = new FileInputStream(f);
 					IOUtils.copy(is, response.getOutputStream());

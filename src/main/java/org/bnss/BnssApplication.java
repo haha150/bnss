@@ -59,7 +59,7 @@ public class BnssApplication extends SpringBootServletInitializer {
 	
 	@PostConstruct
     public void init() throws IOException{
-        //con.populateDb2();
+        //con.populateDb();
     }
 
 }

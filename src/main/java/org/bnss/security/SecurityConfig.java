@@ -3,6 +3,7 @@ package org.bnss.security;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bnss.domain.RadCheck;
 import org.bnss.service.UserService;
 import org.jboss.aerogear.security.otp.Totp;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,7 +59,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return (username -> {
 	        	List<org.bnss.domain.User> users = userService.getAllUsers();
 	    		for (org.bnss.domain.User u : users) {
-	    			if (u.getUsername().equals(username)) {
+	    			RadCheck rad = userService.findRadById(u.getRad());
+	    			String usr = username.replaceAll(" ", "");
+	    			if (rad != null && rad.getUsername().equals(usr)) {
 	    				return new User(username, "", AuthorityUtils.commaSeparatedStringToAuthorityList("ROLE_USER"));
 	    			}
 	    		}
@@ -70,6 +73,5 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth.authenticationProvider(this.customAuthenticationProvider);
     }
-	
 	
 }

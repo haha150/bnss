@@ -3,6 +3,7 @@ package org.bnss.security;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bnss.domain.RadCheck;
 import org.bnss.domain.User;
 import org.bnss.service.UserService;
 import org.jboss.aerogear.security.otp.Totp;
@@ -36,10 +37,13 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 		String verificationCode = ((CustomWebAuthenticationDetails) authentication.getDetails()).getVerificationCode();
 
 		List<User> users = userService.getAllUsers();
+		
 		User user = null;
 		for (User u : users) {
-			if (u.getUsername().equals(authentication.getName())
-					&& encoder.matches(authentication.getCredentials().toString(), u.getPassword())) {
+			RadCheck rad = userService.findRadById(u.getRad());
+			String usr = authentication.getName().replaceAll(" ", "");
+			if (rad != null && rad.getUsername().equals(usr)
+					&& authentication.getCredentials().toString().equals(rad.getValue())) {
 				user = u;
 				break;
 			}
@@ -78,30 +82,34 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 	}
 	
 	public void create() {
-		User u = new User();
-		u.setPassword(encoder.encode("david"));
-		u.setUsername("ChunHeng Jen");
-		u.setSecret(Base32.random());
-		
-		User u2 = new User();
-		u2.setPassword(encoder.encode("ali"));
-		u2.setUsername("Ali Symeri");
-		u2.setSecret(Base32.random());
-		
-		User u3 = new User();
-		u3.setPassword(encoder.encode("farhad"));
-		u3.setUsername("Farhad Zareafifi");
-		u3.setSecret(Base32.random());
-		
-		User u4 = new User();
-		u4.setPassword(encoder.encode("samie"));
-		u4.setUsername("Samie Mostafavi");
-		u4.setSecret(Base32.random());
-		
-		userService.addUser(u);
-		userService.addUser(u2);
-		userService.addUser(u3);
-		userService.addUser(u4);
+		List<RadCheck> users = userService.getAllRad();
+		for (RadCheck r : users) {
+			if (r.getId() == 11) {
+				User u = new User();
+				u.setRad(r.getId());
+				u.setSecret("ODHXFPOXRTPVTXSE");
+				u.setCert("/Users/Ali/Downloads/bnss-2/certs/employee3.der");
+				userService.addUser(u);
+			} else if (r.getId() == 10) {
+				User u2 = new User();
+				u2.setRad(r.getId());
+				u2.setSecret("6DCE7ZG6O4TCLBIR");
+				u2.setCert("/Users/Ali/Downloads/bnss-2/certs/employee1.der");
+				userService.addUser(u2);
+			} else if (r.getId() == 12) {
+				User u3 = new User();
+				u3.setRad(r.getId());
+				u3.setSecret("VIT3XFTNFDBTRZXK");
+				u3.setCert("/Users/Ali/Downloads/bnss-2/certs/employee2.der");
+				userService.addUser(u3);
+			} else if (r.getId() == 13) {
+				User u4 = new User();
+				u4.setRad(r.getId());
+				u4.setSecret("GYOY3ZZTLWH4K3R4");
+				u4.setCert("/Users/Ali/Downloads/bnss-2/certs/employee4.der");
+				userService.addUser(u4);
+			}
+		}
 
 	}
 }
